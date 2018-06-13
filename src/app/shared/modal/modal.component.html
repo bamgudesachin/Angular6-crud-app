@@ -1,0 +1,75 @@
+
+<!-- Large modal -->
+<div class="card-body">
+  <button class="btn btn-primary" (click)="open(content)">{{type}}</button>
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">{{type}} book</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+
+    <form (ngSubmit)="doAction(addBookForm.value)" #addBookForm="ngForm" *ngIf="type !== 'delete'" >
+      <div class="modal-body">
+        <input type="hidden" class="form-control" [(ngModel)]="book.ID" name="ID">
+
+        <div class="form-group">
+          <label for="recipient-name" class="col-form-label">Title:</label>
+          <input type="text" class="form-control" [(ngModel)]="book.Title" name="Title" #title="ngModel" required pattern="[a-zA-Z0-9 ]+">
+          <div *ngIf="title.invalid && (title.dirty || title.touched)">
+            <p class="alert alert-danger" *ngIf="title.errors.required">Title is required!</p>
+            <p class="alert alert-danger" *ngIf="title.errors.pattern">Enter only alphanumeric characters</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="recipient-name" class="col-form-label">Description:</label>
+          <textarea class="form-control" rows="3" [(ngModel)]="book.Description" name="Description" #description="ngModel" required></textarea>
+          <div *ngIf="description.invalid && (description.dirty || description.touched)">
+            <p class="alert alert-danger" *ngIf="description.errors.required">Description is required!</p>     
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="dateOfBirth">Publish Date</label>
+          <div class="input-group">
+            <input type="date" class="form-control" placeholder="yyyy-mm-dd"  [(ngModel)]="book.PublishDate" name="PublishDate"> 
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="recipient-name" class="col-form-label">Excerpt:</label>
+          <textarea class="form-control" rows="3" [(ngModel)]="book.Excerpt" name="Excerpt"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="message-text" class="col-form-label">Page Count:</label>
+          <input type="number" class="form-control"  [(ngModel)]="book.PageCount" #pagecount="ngModel" name="PageCount" pattern = "[1-9][0-9]{0,10}" required>
+          <div *ngIf="pagecount.invalid && (pagecount.dirty || pagecount.touched)" >
+            <div class="alert alert-danger" *ngIf="pagecount.errors.required">Page count required!</div>
+            <div class="alert alert-danger"  *ngIf="pagecount.errors.pattern">Only accept positive numbers</div>           
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+        <input type="submit" class="btn btn-primary" [disabled]="addBookForm.invalid">
+      </div>
+    </form> 
+
+    <form (ngSubmit)="doAction(deleteBookForm.value)" #deleteBookForm="ngForm" *ngIf="type === 'delete'" >
+      <div class="modal-body">
+        <input type="hidden" class="form-control" [(ngModel)]="book.ID" name="ID">
+        <h2>Are you sure, To delete this book. </h2>
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+        <input type="submit" class="btn btn-primary" value="Ok">
+      </div>
+    </form> 
+
+  </ng-template>
+</div>

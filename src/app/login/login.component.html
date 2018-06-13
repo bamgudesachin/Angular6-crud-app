@@ -1,0 +1,37 @@
+
+
+ <div class="container " style="margin-top:30px;"> 
+       <div class="dynamic-width"  style="width:30%;margin: 0 auto;">
+                
+                <div class="login-panel panel panel-default" style="margin-top: 25% !important;">
+                    <div class="panel-heading" style="height: 53px !important;    padding: 8px 15px !important;">
+                        <h1 class="panel-title" style="font-size: 28px !important;text-align: center;font-weight: 100;    margin-top: 2px !important;font-family: 'phenomenabold';">Please Sign In</h1>
+                    </div>
+                    <div class="panel-body" style="background-color:#FFF;padding: 40px;">
+                        <div class="alert alert-danger" *ngIf="errorMsg">
+                            <strong>{{errorMsg}}</strong> 
+                        </div>                                                
+                        <form role="form" (ngSubmit)="f.form.valid && login(f.value)" #f="ngForm" novalidate>
+                            <fieldset>
+                                <div class="form-group"  [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+                                    <input class="form-control login-form" style="height:41px !important;font-family: 'phenomenabold';font-size: 19px !important;" placeholder="Username" name="username" type="text" autofocus [(ngModel)]="model.username" #username="ngModel" required >
+                                    <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+                                </div>
+                                <div class="form-group"  [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                                    <input class="form-control login-form"  placeholder="Password" name="password" type="password" [(ngModel)]="model.password" #password="ngModel" required />
+                                     <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+                                </div>                               
+                                <button type="submit" class="btn btn-lg btn-block login-button" value="Login">Submit</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+ 
+    <ngx-spinner
+      bdColor = "rgba(51, 51, 51, 0.8)"
+      size = "large"
+      color = "#fff"
+      type = "ball-8bits"
+    ></ngx-spinner>

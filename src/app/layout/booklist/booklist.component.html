@@ -1,0 +1,116 @@
+
+
+
+<!-- Page Heading -->
+<div class="row">
+  <div class="col-xl-12">
+    <h2 class="page-header">
+      Books
+    </h2>        
+  </div>
+</div>
+<!-- /.row -->
+
+<div class="container-fluid" >
+  <!-- /.row -->
+  <div class="row">
+    <div class="col  col-md-12">            
+      <div class="card mb-12">
+
+        <div class="card-block table-responsive">
+          <div>                        
+            <app-modal [type]="'add'" (triggerAction)="saveBook($event)"></app-modal>
+          </div>
+          <br>          
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th style="width: 5%">
+                    Sr. no
+                  </th>
+                  <th style="width: 10%">
+                    Title 
+                  </th>                           
+                  <th style="width: 20%">
+                    Description 
+                  </th>
+                  <th style="width: 10%">
+                    PageCount
+                  </th>
+                  <th style="width: 20%">
+                    Excerpt
+                  </th>
+                  <th style="width: 25%" (click)="setOrder('PublishDate')">
+                    PublishDate  <span [hidden]="reverse">▼</span>
+                      <span [hidden]="!reverse">▲</span>
+                  </th>
+                  <th style="width: 15%">Action</th>
+
+                </tr>
+              </thead>
+              <tbody>                
+                <tr *ngFor="let book of pagedItems  | orderBy: order:reverse:'case-insensitive'">
+                  <td>{{book.ID}}</td>
+                  <td>{{book.Title}}</td>    
+                  <td>
+                    {{ (book.Description.length>50)? (book.Description | slice:0:50)+'...':(book.Description) }}
+                  </td>
+                  <td>{{book.PageCount}}</td>
+                  <td>
+                    {{ (book.Excerpt.length>50)? (book.Excerpt | slice:0:50)+'..':(book.Excerpt) }}
+                  </td>
+                  <td>{{book.PublishDate | date: 'dd - MMM - yyyy'}}</td>
+                  <td>
+                    <app-modal [type]="'edit'" [bookOrg]="book" (triggerAction)="saveBook($event)">
+                    </app-modal>
+
+                    <app-modal [type]="'delete'" [bookOrg]="book" (triggerAction)="deleteBook(book.ID)">
+                    </app-modal>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="8">
+                    <div class="container">
+                      <div class="pull-right">        
+                        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                          <li [ngClass]="{disabled:pager.currentPage === 1}">
+                            <a (click)="setPage(1)">First</a>
+                          </li>
+                          <li [ngClass]="{disabled:pager.currentPage === 1}">
+                            <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                          </li>
+                          <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                            <a (click)="setPage(page)">{{page}}</a>
+                          </li>
+                          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                            <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                          </li>
+                          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                            <a (click)="setPage(pager.totalPages)">Last</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner
+  bdColor = "rgba(51, 51, 51, 0.8)"
+  size = "large"
+  color = "#fff"
+  type = "ball-8bits"
+></ngx-spinner>
+
+
+
